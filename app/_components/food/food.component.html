@@ -1,0 +1,91 @@
+<div class="float-right btn btn-primary" role="button" (click)="backButtonClicked()">View all Foods</div>
+
+<br>
+<div *ngIf="foodEdit else viewFood">
+	<form [formGroup]="foodEditForm" (ngSubmit)="editFoodSubmit()">
+		<h2>Details of the food</h2>
+		<div class="form-group">
+			<label for="foodName">Name</label>
+			<input type="text" formControlName="foodName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.foodName.errors }" />
+			<div *ngIf="submitted && f.foodName.errors?.required" class="invalid-feedback">
+				<div>Name is required</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="foodDescr">Description</label>
+			<input type="text" formControlName="foodDescr" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.foodDescr.errors }" />
+			<div *ngIf="submitted && f.foodDescr.errors?.required" class="invalid-feedback">
+				<div>Description is required</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="foodExpiresBy">Food expires by</label>
+			<input type="date" formControlName="foodExpiresBy" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.foodExpiresBy.errors }" />
+			<div *ngIf="submitted && f.foodExpiresBy.errors?.required" class="invalid-feedback">
+				<div>Expiry date is required</div>
+			</div>
+		</div>
+		<h2>Address - to collect the food</h2>
+		<div class="form-group">
+			<label for="foodStreet">Street</label>
+			<input type="text" formControlName="foodStreet" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.foodStreet.errors }" />
+			<div *ngIf="submitted && f.foodStreet.errors?.required" class="invalid-feedback">
+				<div>Street is required</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="foodCity">City</label>
+			<input type="text" formControlName="foodCity" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.foodCity.errors }" />
+			<div *ngIf="submitted && f.foodCity.errors?.required" class="invalid-feedback">
+				<div>City is required</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="foodState">State</label>
+			<select formControlName="foodState" class="form-control dropdown" [ngClass]="{ 'is-invalid': submitted && f.foodState.errors }" >
+      <option *ngFor="let state of states" [ngValue]="state">{{state}}
+      </option>
+   </select>
+			<div *ngIf="submitted && f.foodState.errors?.required" class="invalid-feedback">
+				<div>State is required</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="foodZip">Zipcode</label>
+			<input type="text" formControlName="foodZip" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.foodZip.errors }" />
+			<div *ngIf="submitted && f.foodZip.errors?.required" class="invalid-feedback">
+				<div>Zipcode is required</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<button [disabled]="loading" class="btn btn-primary">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Submit
+    </button>
+			<a routerLink="/login" class="btn btn-link">Cancel</a>
+		</div>
+
+	</form>
+</div>
+<br>
+<ng-template #viewFood>
+	<div class="card bg-info" style="width: 18rem;">
+		<div class="card-body">
+			<h5 class="card-title">Food details</h5>
+			<p class="card-text">Name : {{food.name}}</p>
+			<p class="card-text">Description: {{food.description}}</p>
+			<p class="card-text">Created on: {{food.createdOn | date}}</p>
+			<p class="card-text">Expires by: {{food.expiresBy | date}}</p>
+		</div>
+	</div>
+  <br>
+	<div class="card bg-info" style="width: 18rem;">
+		<div class="card-body">
+			<p class="card-title">Address provided for collection</p>
+			<p class="card-text">Street: {{food.street}}</p>
+			<p class="card-text">City: {{food.city}}</p>
+			<p class="card-text">State: {{food.state}}</p>
+			<p class="card-text">Zipcode: {{food.zipCode}}</p>
+		</div>
+	</div>
+  <div class="float-right btn btn-primary" style="width: 130px" role="button" (click)="askFood()">Ask</div>
+</ng-template>

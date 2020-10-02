@@ -1,0 +1,59 @@
+<div *ngIf="showDonatedFoods && donatedFoods.length !== 0">
+	<h3>
+		Your donated items
+	</h3>
+	<table datatable class="table table-bordered table-hover bg-info">
+		<thead class="thead-dark">
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+        <th>Asked</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let food of donatedFoods | paginate: { itemsPerPage: 5, currentPage: currentPage }">
+				<td>{{food.name}}</td>
+				<td>{{food.description}}</td>
+        <td>{{food.asked}}
+				<td><a class="btn btn-info bg-primary" role="button" (click)="editFood(food)">Edit</a></td>
+				<td><a class="btn btn-info bg-primary" role="button" (click)="removeFood(food)">Mark as collected</a></td>
+				<td *ngIf="food.asked"><a class="btn btn-info bg-primary" role="button" (click)="notClaimed(food)">Food not collected</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+</div>
+
+
+<div *ngIf="showAllFoods && allFoods.length !== 0">
+	<h3>
+		Foods available for collection
+	</h3>
+	<table datatable class="table table-bordered table-hover bg-info">
+		<thead class="thead-dark">
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let food of allFoods | paginate: { itemsPerPage: 5, currentPage: currentPage }">
+				<td>{{food.name}}</td>
+				<td>{{food.description}}</td>
+        <td><a class="btn btn-info bg-primary" role="button" (click)="viewFood(food)">View/Ask</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+</div>
+<br>
+<br>
+<div *ngIf="allFoods.length === 0">
+  <h3>Our sincere apologies. There are no foods available to collect at this time.</h3>
+</div>
+
+<app-food *ngIf="selectedFood" [food]="selectedFood" [foodEdit]="foodEdit" (backButtonClick)="hideFood($event)">
+</app-food>
